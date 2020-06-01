@@ -1,15 +1,15 @@
 ﻿#include <iostream>
 
-class safe_long_long_t 
+class safe_long_long_t
 {
 private:
     long long value;
 public:
     // конструктор
-    safe_long_long_t(long long a) { 
-        value = a; 
+    safe_long_long_t(long long a) {
+        value = a;
     }
-    
+
     // оператор присваивания
     const safe_long_long_t& operator=(const safe_long_long_t& a)
     {
@@ -63,56 +63,78 @@ public:
     }
 
     // арифмитические операторы
-    const safe_long_long_t operator+(const safe_long_long_t& a) {
-        return safe_long_long_t(*this) += a;
-    }
-    const safe_long_long_t operator-(const safe_long_long_t& a) {
-        return safe_long_long_t(*this) -= a;
-    }
-    const safe_long_long_t operator*(const safe_long_long_t& a) {
-        return safe_long_long_t(*this) *= a;
-    }
-    const safe_long_long_t operator/(const safe_long_long_t& a) {
-        return safe_long_long_t(*this) /= a;
-    }
-    const safe_long_long_t operator%(const safe_long_long_t& a) {
-        return safe_long_long_t(*this) %= a;
-    }
+    friend safe_long_long_t operator+(const safe_long_long_t& b, const safe_long_long_t& a);
+    friend safe_long_long_t operator-(const safe_long_long_t& b, const safe_long_long_t& a);
+    friend safe_long_long_t operator*(const safe_long_long_t& b, const safe_long_long_t& a);
+    friend safe_long_long_t operator/(const safe_long_long_t& b, const safe_long_long_t& a);
+    friend safe_long_long_t operator%(const safe_long_long_t& b, const safe_long_long_t& a);
 
     // операторы сравнения
-    friend bool operator==(const safe_long_long_t& a);
-
-    bool operator!=(const safe_long_long_t& a) const {
-        return (this->value != a.value);
-    }
-    bool operator>(const safe_long_long_t& a) const {
-        return (this->value > a.value);
-    }
-    bool operator<(const safe_long_long_t& a) const {
-        return (this->value < a.value);
-    }
-    bool operator>=(const safe_long_long_t& a) const {
-        return (this->value >= a.value);
-    }
-    bool operator<=(const safe_long_long_t& a) const {
-        return (this->value <= a.value);
-    }
+    friend bool operator==(safe_long_long_t& b, const safe_long_long_t& a);
+    friend bool operator!=(safe_long_long_t& b, const safe_long_long_t& a);
+    friend bool operator>(safe_long_long_t& b, const safe_long_long_t& a);
+    friend bool operator<(safe_long_long_t& b, const safe_long_long_t& a);
+    friend bool operator>=(safe_long_long_t& b, const safe_long_long_t& a);
+    friend bool operator<=(safe_long_long_t& b, const safe_long_long_t& a);
 
     // операторы ввода и вывода
     friend std::ostream& operator<<(std::ostream& out, const safe_long_long_t& a);
     friend std::istream& operator>>(std::istream& in, safe_long_long_t& a);
 
 };
-
-bool operator==(const safe_long_long_t& a) const {
-    return (this->value == a.value);
+// арифмитические операторы
+safe_long_long_t operator+(const safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return safe_long_long_t(a.value + b.value);
+}
+safe_long_long_t operator-(const safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return safe_long_long_t(a.value - b.value);
+}
+safe_long_long_t operator*(const safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return safe_long_long_t(a.value * b.value);
+}
+safe_long_long_t operator/(const safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return safe_long_long_t(a.value / b.value);
+}
+safe_long_long_t operator%(const safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return safe_long_long_t(a.value % b.value);
 }
 
-std::ostream& operator<<(std::ostream& out, const safe_long_long_t& a) 
+// операторы сравнения
+bool operator==(safe_long_long_t& b, const safe_long_long_t& a) 
+{
+    return (b.value == a.value);
+}
+bool operator!=(safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return (b.value != a.value);
+}
+bool operator>(safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return (b.value > a.value);
+}
+bool operator<(safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return (b.value < a.value);
+}
+bool operator>=(safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return (b.value >= a.value);
+}
+bool operator<=(safe_long_long_t& b, const safe_long_long_t& a)
+{
+    return (b.value <= a.value);
+}
+
+// операторы ввода и вывода
+std::ostream& operator<<(std::ostream& out, const safe_long_long_t& a)
 {
     return out << a.value;
 }
-
 std::istream& operator>> (std::istream& in, safe_long_long_t& a)
 {
     return in >> a.value;
