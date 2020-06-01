@@ -80,9 +80,8 @@ public:
     }
 
     // операторы сравнения
-    bool operator==(const safe_long_long_t& a) const {
-        return (this->value == a.value);
-    }
+    friend bool operator==(const safe_long_long_t& a);
+
     bool operator!=(const safe_long_long_t& a) const {
         return (this->value != a.value);
     }
@@ -104,6 +103,10 @@ public:
     friend std::istream& operator>>(std::istream& in, safe_long_long_t& a);
 
 };
+
+bool operator==(const safe_long_long_t& a) const {
+    return (this->value == a.value);
+}
 
 std::ostream& operator<<(std::ostream& out, const safe_long_long_t& a) 
 {

@@ -12,7 +12,7 @@ public:
 	safe_c_array_t()
 	{
 		size = 0;
-		arr = 0;
+		arr = nullptr;
 	}
 
 	// конструктор с параметрами
@@ -39,7 +39,6 @@ public:
 	// перегрузка оператора присваивания
 	safe_c_array_t& operator=(safe_c_array_t& arr2)
 	{
-		delete[] arr;
 		size = arr2.size;
 		arr = new T[size];
 		for (int i = 0; i < size; i++)
@@ -60,7 +59,14 @@ int main()
 	arr2[0] = 4.78;
 	arr3 = arr;
 
-	std::cout << arr[0] << '\n';
+	for (size_t i = 0; i < 4; i++)
+		std::cout << arr[i] << ' ';
+
+	arr = arr;
+
+	for (size_t i = 0; i < 4; i++)
+		std::cout << arr[i] << ' ';
+
 	std::cout << arr2[0] << '\n';
 	std::cout << arr3[0] << '\n';
 
