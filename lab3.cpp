@@ -49,9 +49,11 @@ public:
         first->prev = last;
         size = 0;
         node_t* c = other.last->next;
-        while (c != other.first) {
+        size_t i = 0;
+        while (i != other.size) {
             push_back(c->value);
             c = c->next;
+            i++;
         }
     }; 
 
@@ -157,15 +159,21 @@ public:
 
     int_list_t splice(size_t start_pos, size_t count) {
         int_list_t list;
-        node_t* elem;
-        node_t* first_elem = find(start_pos);
-        list.last->next = first_elem;
-
-        for (size_t i = start_pos; i != start_pos + count; i++) {
-            list.push_back(first_elem->value);
-            first_elem = first_elem->next;
-            erase(i);
-        }
+        node_t* start_elem = find(start_pos);            
+        node_t* end_elem = find(start_pos + count - 1);
+        node_t* prev_elem = find(start_pos - 1);
+        node_t* next_elem = find(start_pos + count);
+        
+        list.last->next = start_elem;
+        list.first->prev = end_elem;
+        list.size += count;
+        
+        prev_elem->next = next_elem;
+        prev_elem->next->prev = next_elem->prev;
+        next_elem->prev = prev_elem;
+        next_elem->prev->next = prev_elem->next;
+        size -= count;
+        
         return list;
     }; 
 
@@ -253,7 +261,11 @@ int main()
     std::cout << "add values to l1: ";
     std::cin >> l1;
     std::cout << std::endl;
-    std::cout << "splice part of l2: " << l2.splice(1, 2) << "l2: " << l2 << std::endl;
+
+    std::cout << "l1: " << l1 << std::endl;
+
+    std::cout << "splice part of l2: " << l2.splice(0, 2) << "l2: " << l2 << std::endl;
+    
     l2.reverse();
     std::cout << "reverse: " << l2 << std::endl;
     l2.clear();
@@ -264,4 +276,5 @@ int main()
     {
         std::cout << "l1 is empty: " << l1 << std::endl;
     }
+    
 }
